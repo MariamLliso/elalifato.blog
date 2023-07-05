@@ -1,0 +1,60 @@
+{
+  "name": "elalifato.blog",
+  "homepage": "https://elalifato.blog/",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Mariam Lliso | contacto.mariamlliso@gmail.com",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "export": "next export",
+    "format": "pnpm lint --fix",
+    "format:no-path": "pnpm lint:no-path --fix",
+    "lint": "eslint .",
+    "lint:no-path": "eslint",
+    "start": "next start -p ${PORT:=3000}",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/*.js": "pnpm format:no-path",
+    "**/*.scss": "pnpm prettier --write"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.14",
+    "date-fns": "^2.30.0",
+    "dotenv": "^16.0.3",
+    "fuse.js": "^6.6.2",
+    "graphql": "^16.6.0",
+    "he": "^1.2.0",
+    "loader-utils": "^3.2.1",
+    "next": "13.4.0",
+    "nextjs-progressbar": "^0.0.16",
+    "parameterize": "^1.0.0",
+    "path": "^0.12.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.8.0",
+    "rss": "^1.2.2",
+    "sass": "^1.62.1",
+    "style.css": "^1.0.3"
+  },
+  "devDependencies": {
+    "eslint": "8.39.0",
+    "eslint-config-next": "^13.4.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.2",
+    "playwright": "^1.33.0",
+    "prettier": "2.8.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/colbyfayock/next-wordpress-starter"
+  },
+  "bugs": {
+    "url": "https://github.com/colbyfayock/next-wordpress-starter/issues"
+  }
+}
