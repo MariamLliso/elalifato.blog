@@ -77,7 +77,7 @@ export async function getAllUsers() {
     throw e;
   }
 
-  let users = usersData?.data.users.edges.map(({ node = {} }) => node).map(mapUserData);
+  let users = usersData?.data.users.edges.map(({ node = {} }) => node);
 
   // If the SEO plugin is enabled, look up the data
   // and apply it to the default settings
@@ -113,7 +113,7 @@ export async function getAllUsers() {
   }
 
   return {
-    users,
+    users: Array.isArray(users) && users.map(mapUserData),
   };
 }
 
@@ -141,12 +141,25 @@ export async function getAllAuthors() {
  * mapUserData
  */
 
-export function mapUserData(user) {
-  return {
+export function mapUserData(userData) {
+  const user = userData.node || userData;
+
+  const data = {
     ...user,
-    roles: [...user.roles.nodes],
-    avatar: user.avatar && updateUserAvatar(user.avatar),
   };
+
+  if (user.user?.userimage) {
+    data.avatar = {
+      ...user.user.userimage.mediaDetails,
+      url: user.user.userimage.sourceUrl,
+    };
+  }
+
+  if (user.roles?.nodes) {
+    data.roles = [...user.roles.nodes];
+  }
+
+  return data;
 }
 
 /**
