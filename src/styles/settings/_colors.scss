@@ -1,3 +1,9 @@
+/* GENERAL COLORS */
+$color-general-black: #2b313b;
+$color-general-white: #fff;
+
+/* BRAND COLORS */
+
 $color-gray-50: #eef0f3;
 $color-gray-100: #cfd7de;
 $color-gray-200: #b1bdca;
@@ -9,15 +15,17 @@ $color-gray-700: #333e4a;
 $color-gray-800: #1e242b;
 $color-gray-900: #090b0d;
 
-$color-blue-50: #f3f8ff;
-$color-blue-100: #c0ddff;
-$color-blue-200: #8dc1ff;
-$color-blue-300: #5aa6ff;
-$color-blue-400: #278bff;
-$color-blue-500: #0070f3;
-$color-blue-600: #0059c0;
-$color-blue-700: #00418d;
-$color-blue-800: #002a5a;
-$color-blue-900: #001227;
+$color-blue-50: #eef5f6;
+$color-blue-100: #cadfe2;
+$color-blue-200: #9cc3c9;
+$color-blue-300: #74abb4;
+$color-blue-400: #476a70;
+$color-blue-500: #324c66;
 
 $color-primary: $color-blue-500;
+
+$color-orange-50: #fef9f1;
+$color-orange-100: #fbeed4;
+$color-orange-200: #fecb89;
+$color-orange-300: #f7ac4a;
+$color-orange-400: #d98b26;
