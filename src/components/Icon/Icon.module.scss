@@ -1,0 +1,9 @@
+@import "styles/settings/__settings";
+
+.icon {
+  stroke: white;
+  padding: 0.8em 1.4em;
+  border-radius: $border-radius-small;
+  border: 0;
+  cursor: pointer;
+}
