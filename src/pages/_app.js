@@ -12,6 +12,7 @@ import { getAllMenus } from 'lib/menus';
 import 'styles/globals.scss';
 import 'styles/wordpress.scss';
 import variables from 'styles/_variables.module.scss';
+import DeviceProvider from 'providers/DeviceProvider';
 
 function App({ Component, pageProps = {}, metadata, recentPosts, categories, menus }) {
   const site = useSiteContext({
@@ -23,10 +24,12 @@ function App({ Component, pageProps = {}, metadata, recentPosts, categories, men
 
   return (
     <SiteContext.Provider value={site}>
-      <SearchProvider>
-        <NextNProgress height={4} color={variables.progressbarColor} />
-        <Component {...pageProps} />
-      </SearchProvider>
+      <DeviceProvider>
+        <SearchProvider>
+          <NextNProgress height={4} color={variables.progressbarColor} />
+          <Component {...pageProps} />
+        </SearchProvider>
+      </DeviceProvider>
     </SiteContext.Provider>
   );
 }
