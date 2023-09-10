@@ -1,5 +1,5 @@
-$progressbar_color: #0070f3;
+@import "styles/settings/__settings";
 
 :export {
-  progressbarColor: $progressbar_color;
+  progressbarColor: $color-orange-300;
 }
