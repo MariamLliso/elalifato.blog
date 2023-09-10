@@ -1,0 +1,19 @@
+@import "styles/settings/__settings";
+
+.logo {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+
+  cursor: pointer;
+
+  &__isologo {
+    width: auto;
+    height: 2.5rem;
+  }
+
+  &__logotipo {
+    width: auto;
+    height: 2rem;
+  }
+}
