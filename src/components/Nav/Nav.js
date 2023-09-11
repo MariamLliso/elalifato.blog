@@ -172,7 +172,9 @@ const Nav = () => {
           <Link href="/">
             <Logo title={title} />
           </Link>
-          {isMobile && <Button ref={menuButtonRef} iconLeftName={'menu'} onClick={handleOnToggleMenu} />}
+          {isMobile && (
+            <Button ref={menuButtonRef} iconLeftName={'menu'} iconSize={'large'} onClick={handleOnToggleMenu} />
+          )}
         </div>
         {menuVisibility === MENU_VISIBLE && (
           <div ref={menuRef} className={styles.nav__menu}>

@@ -3,7 +3,7 @@ import styles from './Button.module.scss';
 import Icon from 'components/Icon/Icon';
 import React from 'react';
 
-const Button = React.forwardRef(({ children, href, isCta, iconLeftName, iconRightName, ...rest }, ref) => {
+const Button = React.forwardRef(({ children, href, isCta, iconLeftName, iconRightName, iconSize, ...rest }, ref) => {
   const router = useRouter();
   let buttonClassName = styles.button;
 
@@ -22,9 +22,9 @@ const Button = React.forwardRef(({ children, href, isCta, iconLeftName, iconRigh
 
   return (
     <button ref={ref} type="button" onClick={handleClick} className={buttonClassName} {...rest}>
-      {iconLeftName && <Icon name={iconLeftName} />}
+      {iconLeftName && <Icon name={iconLeftName} iconSize={iconSize} />}
       {children}
-      {iconRightName && <Icon name={iconRightName} />}
+      {iconRightName && <Icon name={iconRightName} iconSize={iconSize} />}
     </button>
   );
 });

@@ -8,9 +8,10 @@
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
+    margin: 0;
     padding: 1rem 1.5rem;
 
-    @media (min-width: $breakpoint-small) {
+    @media (min-width: $breakpoint-medium) {
       flex-direction: row;
       padding: 1.5rem 3rem;
     }
@@ -22,11 +23,9 @@
     justify-content: space-between;
     flex-direction: row;
     width: 100%;
-    margin-bottom: 1.5rem;
 
-    @media (min-width: $breakpoint-small) {
-      justify-content: space-between;
-      flex-direction: row;
+    @media (max-width: $breakpoint-medium) {
+      margin-bottom: 1.5rem;
     }
   }
 
