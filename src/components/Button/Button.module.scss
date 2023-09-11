@@ -18,7 +18,11 @@
   cursor: pointer;
 
   &:hover {
-    background-color: $color-blue-50;
+    background-color: $color-blue-100;
+
+    @media (min-width: $breakpoint-small) {
+      background-color: $color-blue-50;
+    }
   }
 }
 

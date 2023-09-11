@@ -6,7 +6,7 @@ function DeviceProvider({ children }) {
 
   useEffect(() => {
     function handleResize() {
-      setIsMobile(window.innerWidth <= 991);
+      setIsMobile(window.innerWidth <= 640);
     }
 
     window.addEventListener('resize', handleResize);

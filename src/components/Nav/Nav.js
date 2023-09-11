@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useContext } from 'react';
 import Link from 'next/link';
 
 import useSite from 'hooks/use-site';
@@ -11,16 +11,24 @@ import styles from './Nav.module.scss';
 import Logo from 'components/Logo/Logo';
 import Button from 'components/Button/Button';
 import Icon from 'components/Icon/Icon';
+import DeviceContext from 'context/DeviceContext';
 
 const SEARCH_VISIBLE = 'visible';
 const SEARCH_HIDDEN = 'hidden';
+
+const MENU_VISIBLE = 'visible';
+const MENU_HIDDEN = 'hidden';
 
 const Nav = () => {
   const isFeatureSearchEnable = process.env.NEXT_PUBLIC_FEATURE_FLAG_SEARCH === 'enable';
 
   const formRef = useRef();
+  const menuRef = useRef();
+  const menuButtonRef = useRef();
+  const { isMobile } = useContext(DeviceContext);
 
   const [searchVisibility, setSearchVisibility] = useState(SEARCH_HIDDEN);
+  const [menuVisibility, setMenuVisibility] = useState('');
 
   const { metadata = {} } = useSite();
   const { title } = metadata;
@@ -30,6 +38,11 @@ const Nav = () => {
   });
 
   const searchIsLoaded = state === SEARCH_STATE_LOADED;
+
+  useEffect(() => {
+    if (isMobile) return setMenuVisibility(MENU_HIDDEN);
+    return setMenuVisibility(MENU_VISIBLE);
+  }, [isMobile]);
 
   useEffect(() => {
     if (searchVisibility === SEARCH_HIDDEN) {
@@ -51,6 +64,22 @@ const Nav = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchVisibility]);
 
+  useEffect(() => {
+    if (menuVisibility === MENU_HIDDEN) {
+      removeDocumentOnClick();
+      return;
+    }
+
+    addDocumentOnClick();
+    addResultsRoving();
+
+    return () => {
+      removeResultsRoving();
+      removeDocumentOnClick();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuVisibility]);
+
   function addDocumentOnClick() {
     document.body.addEventListener('click', handleOnDocumentClick, true);
   }
@@ -60,8 +89,14 @@ const Nav = () => {
   }
 
   function handleOnDocumentClick(e) {
-    if (!e.composedPath().includes(formRef.current)) {
+    if (!isMobile) return;
+    if (
+      !e.composedPath().includes(formRef.current) &&
+      !e.composedPath().includes(menuRef.current) &&
+      !e.composedPath().includes(menuButtonRef.current)
+    ) {
       setSearchVisibility(SEARCH_HIDDEN);
+      setMenuVisibility(MENU_HIDDEN);
       clearSearch();
     }
   }
@@ -74,6 +109,10 @@ const Nav = () => {
 
   function handleOnToggleSearch() {
     setSearchVisibility(SEARCH_VISIBLE);
+  }
+
+  function handleOnToggleMenu() {
+    setMenuVisibility(menuVisibility === MENU_VISIBLE ? MENU_HIDDEN : MENU_VISIBLE);
   }
 
   function addResultsRoving() {
@@ -112,6 +151,7 @@ const Nav = () => {
     if (event.keyCode === 27) {
       clearSearch();
       setSearchVisibility(SEARCH_HIDDEN);
+      setMenuVisibility(MENU_HIDDEN);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -128,22 +168,27 @@ const Nav = () => {
   return (
     <nav className={styles.nav}>
       <Section className={styles.nav__section}>
-        <Link href="/">
-          <Logo title={title} />
-        </Link>
-
-        <ul className={styles.nav__links}>
-          <li>
-            <Button href="/">Home</Button>
-          </li>
-          <li>
-            <Button href="/posts/">Post</Button>
-          </li>
-          <li>
-            <Button>Sobre mi</Button>
-          </li>
-        </ul>
-
+        <div className={styles.nav__logo}>
+          <Link href="/">
+            <Logo title={title} />
+          </Link>
+          {isMobile && <Button ref={menuButtonRef} iconLeftName={'menu'} onClick={handleOnToggleMenu} />}
+        </div>
+        {menuVisibility === MENU_VISIBLE && (
+          <div ref={menuRef} className={styles.nav__menu}>
+            <ul className={styles.nav__menuLinks}>
+              <li>
+                <Button href="/">Home</Button>
+              </li>
+              <li>
+                <Button href="/posts/">Post</Button>
+              </li>
+              <li>
+                <Button>Sobre mi</Button>
+              </li>
+            </ul>
+          </div>
+        )}
         {isFeatureSearchEnable && (
           <div className={styles.navSearch}>
             {searchVisibility === SEARCH_HIDDEN && (
