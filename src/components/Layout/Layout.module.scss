@@ -1,5 +1,14 @@
-.layoutContainer {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
+@import "styles/settings/__settings";
+
+.layout {
+  margin: 0;
+
+  background-color: $color-general-white;
+
+  @media (min-width: $breakpoint-medium) {
+    margin: 2rem auto 0 auto;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    max-width: 1220px;
+  }
 }

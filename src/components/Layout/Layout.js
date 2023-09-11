@@ -32,6 +32,10 @@ const Layout = ({ children }) => {
           type: 'application/rss+xml',
           href: '/feed.xml',
         },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0',
+        },
 
         // Favicon sizes and manifest generated via https://favicon.io/
 
@@ -61,7 +65,7 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className={styles.layoutContainer}>
+    <div className={styles.layout}>
       <Helmet {...helmetSettings} />
 
       <Nav />

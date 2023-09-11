@@ -2,23 +2,46 @@
 
 .nav {
   width: 100%;
-  border-bottom: 1px solid $color-gray-100;
-  padding: 0 1rem;
-}
 
-.navSection {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  height: 100%;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin: 0;
+  &__section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    margin: 0;
+    padding: 1rem 1.5rem;
 
-  @media (min-width: 480px) {
+    @media (min-width: $breakpoint-medium) {
+      flex-direction: row;
+      padding: 1.5rem 3rem;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
     flex-direction: row;
+    width: 100%;
+
+    @media (max-width: $breakpoint-medium) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  &__menuLinks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+
+    & > li {
+      white-space: nowrap;
+    }
   }
 }
 

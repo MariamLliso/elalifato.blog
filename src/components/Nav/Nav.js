@@ -1,30 +1,37 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useContext } from 'react';
 import Link from 'next/link';
-import { FaSearch } from 'react-icons/fa';
 
 import useSite from 'hooks/use-site';
 import useSearch, { SEARCH_STATE_LOADED } from 'hooks/use-search';
 import { postPathBySlug } from 'lib/posts';
-import { findMenuByLocation, MENU_LOCATION_NAVIGATION_DEFAULT } from 'lib/menus';
 
 import Section from 'components/Section';
 
 import styles from './Nav.module.scss';
-import NavListItem from 'components/NavListItem';
+import Logo from 'components/Logo/Logo';
+import Button from 'components/Button/Button';
+import Icon from 'components/Icon/Icon';
+import DeviceContext from 'context/DeviceContext';
 
 const SEARCH_VISIBLE = 'visible';
 const SEARCH_HIDDEN = 'hidden';
 
+const MENU_VISIBLE = 'visible';
+const MENU_HIDDEN = 'hidden';
+
 const Nav = () => {
+  const isFeatureSearchEnable = process.env.NEXT_PUBLIC_FEATURE_FLAG_SEARCH === 'enable';
+
   const formRef = useRef();
+  const menuRef = useRef();
+  const menuButtonRef = useRef();
+  const { isMobile } = useContext(DeviceContext);
 
   const [searchVisibility, setSearchVisibility] = useState(SEARCH_HIDDEN);
+  const [menuVisibility, setMenuVisibility] = useState('');
 
-  const { metadata = {}, menus } = useSite();
+  const { metadata = {} } = useSite();
   const { title } = metadata;
-
-  const navigationLocation = process.env.WORDPRESS_MENU_LOCATION_NAVIGATION || MENU_LOCATION_NAVIGATION_DEFAULT;
-  const navigation = findMenuByLocation(menus, navigationLocation);
 
   const { query, results, search, clearSearch, state } = useSearch({
     maxResults: 5,
@@ -32,14 +39,12 @@ const Nav = () => {
 
   const searchIsLoaded = state === SEARCH_STATE_LOADED;
 
-  // When the search visibility changes, we want to add an event listener that allows us to
-  // detect when someone clicks outside of the search box, allowing us to close the results
-  // when focus is drawn away from search
+  useEffect(() => {
+    if (isMobile) return setMenuVisibility(MENU_HIDDEN);
+    return setMenuVisibility(MENU_VISIBLE);
+  }, [isMobile]);
 
   useEffect(() => {
-    // If we don't have a query, don't need to bother adding an event listener
-    // but run the cleanup in case the previous state instance exists
-
     if (searchVisibility === SEARCH_HIDDEN) {
       removeDocumentOnClick();
       return;
@@ -47,9 +52,6 @@ const Nav = () => {
 
     addDocumentOnClick();
     addResultsRoving();
-
-    // When the search box opens up, additionall find the search input and focus
-    // on the element so someone can start typing right away
 
     const searchInput = Array.from(formRef.current.elements).find((input) => input.type === 'search');
 
@@ -62,36 +64,42 @@ const Nav = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchVisibility]);
 
-  /**
-   * addDocumentOnClick
-   */
+  useEffect(() => {
+    if (menuVisibility === MENU_HIDDEN) {
+      removeDocumentOnClick();
+      return;
+    }
+
+    addDocumentOnClick();
+    addResultsRoving();
+
+    return () => {
+      removeResultsRoving();
+      removeDocumentOnClick();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menuVisibility]);
 
   function addDocumentOnClick() {
     document.body.addEventListener('click', handleOnDocumentClick, true);
   }
 
-  /**
-   * removeDocumentOnClick
-   */
-
   function removeDocumentOnClick() {
     document.body.removeEventListener('click', handleOnDocumentClick, true);
   }
 
-  /**
-   * handleOnDocumentClick
-   */
-
   function handleOnDocumentClick(e) {
-    if (!e.composedPath().includes(formRef.current)) {
+    if (!isMobile) return;
+    if (
+      !e.composedPath().includes(formRef.current) &&
+      !e.composedPath().includes(menuRef.current) &&
+      !e.composedPath().includes(menuButtonRef.current)
+    ) {
       setSearchVisibility(SEARCH_HIDDEN);
+      setMenuVisibility(MENU_HIDDEN);
       clearSearch();
     }
   }
-
-  /**
-   * handleOnSearch
-   */
 
   function handleOnSearch({ currentTarget }) {
     search({
@@ -99,33 +107,21 @@ const Nav = () => {
     });
   }
 
-  /**
-   * handleOnToggleSearch
-   */
-
   function handleOnToggleSearch() {
     setSearchVisibility(SEARCH_VISIBLE);
   }
 
-  /**
-   * addResultsRoving
-   */
+  function handleOnToggleMenu() {
+    setMenuVisibility(menuVisibility === MENU_VISIBLE ? MENU_HIDDEN : MENU_VISIBLE);
+  }
 
   function addResultsRoving() {
     document.body.addEventListener('keydown', handleResultsRoving);
   }
 
-  /**
-   * removeResultsRoving
-   */
-
   function removeResultsRoving() {
     document.body.removeEventListener('keydown', handleResultsRoving);
   }
-
-  /**
-   * handleResultsRoving
-   */
 
   function handleResultsRoving(e) {
     const focusElement = document.activeElement;
@@ -151,16 +147,11 @@ const Nav = () => {
     }
   }
 
-  /**
-   * escFunction
-   */
-
-  // pressing esc while search is focused will close it
-
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       clearSearch();
       setSearchVisibility(SEARCH_HIDDEN);
+      setMenuVisibility(MENU_HIDDEN);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -176,56 +167,73 @@ const Nav = () => {
 
   return (
     <nav className={styles.nav}>
-      <Section className={styles.navSection}>
-        <p className={styles.navName}>
-          <Link href="/">{title}</Link>
-        </p>
-        <ul className={styles.navMenu}>
-          {navigation?.map((listItem) => {
-            return <NavListItem key={listItem.id} className={styles.navSubMenu} item={listItem} />;
-          })}
-        </ul>
-        <div className={styles.navSearch}>
-          {searchVisibility === SEARCH_HIDDEN && (
-            <button onClick={handleOnToggleSearch} disabled={!searchIsLoaded}>
-              <span className="sr-only">Toggle Search</span>
-              <FaSearch />
-            </button>
-          )}
-          {searchVisibility === SEARCH_VISIBLE && (
-            <form ref={formRef} action="/search" data-search-is-active={!!query}>
-              <input
-                type="search"
-                name="q"
-                value={query || ''}
-                onChange={handleOnSearch}
-                autoComplete="off"
-                placeholder="Search..."
-                required
-              />
-              <div className={styles.navSearchResults}>
-                {results.length > 0 && (
-                  <ul>
-                    {results.map(({ slug, title }, index) => {
-                      return (
-                        <li key={slug}>
-                          <Link tabIndex={index} href={postPathBySlug(slug)}>
-                            {title}
-                          </Link>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                )}
-                {results.length === 0 && (
-                  <p>
-                    Sorry, not finding anything for <strong>{query}</strong>
-                  </p>
-                )}
-              </div>
-            </form>
+      <Section className={styles.nav__section}>
+        <div className={styles.nav__logo}>
+          <Link href="/">
+            <Logo title={title} />
+          </Link>
+          {isMobile && (
+            <Button ref={menuButtonRef} iconLeftName={'menu'} iconSize={'large'} onClick={handleOnToggleMenu} />
           )}
         </div>
+        {menuVisibility === MENU_VISIBLE && (
+          <div ref={menuRef} className={styles.nav__menu}>
+            <ul className={styles.nav__menuLinks}>
+              <li>
+                <Button href="/">Home</Button>
+              </li>
+              <li>
+                <Button href="/posts/">Post</Button>
+              </li>
+              <li>
+                <Button>Sobre mi</Button>
+              </li>
+            </ul>
+          </div>
+        )}
+        {isFeatureSearchEnable && (
+          <div className={styles.navSearch}>
+            {searchVisibility === SEARCH_HIDDEN && (
+              <Button onClick={handleOnToggleSearch} disabled={!searchIsLoaded}>
+                <span className="sr-only">Toggle Search</span>
+                <Icon name="search" />
+              </Button>
+            )}
+            {searchVisibility === SEARCH_VISIBLE && (
+              <form ref={formRef} action="/search" data-search-is-active={!!query}>
+                <input
+                  type="search"
+                  name="q"
+                  value={query || ''}
+                  onChange={handleOnSearch}
+                  autoComplete="off"
+                  placeholder="Search..."
+                  required
+                />
+                <div className={styles.navSearchResults}>
+                  {results.length > 0 && (
+                    <ul>
+                      {results.map(({ slug, title }, index) => {
+                        return (
+                          <li key={slug}>
+                            <Link tabIndex={index} href={postPathBySlug(slug)}>
+                              {title}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                  {results.length === 0 && (
+                    <p>
+                      Sorry, not finding anything for <strong>{query}</strong>
+                    </p>
+                  )}
+                </div>
+              </form>
+            )}
+          </div>
+        )}
       </Section>
     </nav>
   );
