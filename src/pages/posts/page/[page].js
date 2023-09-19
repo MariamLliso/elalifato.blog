@@ -4,8 +4,8 @@ import usePageMetadata from 'hooks/use-page-metadata';
 import TemplateArchive from 'templates/archive';
 
 export default function Posts({ posts, pagination }) {
-  const title = `Post`;
-  const slug = 'posts';
+  const title = `Blog`;
+  const slug = 'blog';
 
   const { metadata } = usePageMetadata({
     metadata: {
