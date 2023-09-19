@@ -170,7 +170,11 @@ const Nav = () => {
   return (
     <nav className={styles.nav}>
       <Section className={styles.nav__section}>
-        <div className={`${styles.nav__logo} ${menuVisibility == MENU_VISIBLE && styles.nav__logo_marginBottom}`}>
+        <div
+          className={`${styles.nav__logo} ${
+            isMobile && menuVisibility == MENU_VISIBLE ? styles.nav__logo_marginBottom : ''
+          }`}
+        >
           <Link href="/">
             <Logo title={title} />
           </Link>
