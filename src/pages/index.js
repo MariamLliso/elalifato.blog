@@ -1,3 +1,5 @@
+import { Helmet } from 'react-helmet';
+
 import useSite from 'hooks/use-site';
 import { getPaginatedPosts } from 'lib/posts';
 import { WebsiteJsonLd } from 'lib/json-ld';
@@ -13,25 +15,21 @@ import styles from 'styles/pages/Home.module.scss';
 
 export default function Home({ posts, pagination }) {
   const { metadata = {} } = useSite();
-  const { title, description } = metadata;
+  const { title: siteTitle, description } = metadata;
+  const title = `Inicio`;
+  const headerTitle = 'Tu blog para entender el presente analizando el pasado';
 
   return (
     <Layout>
-      <WebsiteJsonLd siteTitle={title} />
-      <Header>
-        <h1
-          dangerouslySetInnerHTML={{
-            __html: title,
-          }}
-        />
+      <Helmet>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+      </Helmet>
 
-        <p
-          className={styles.description}
-          dangerouslySetInnerHTML={{
-            __html: description,
-          }}
-        />
-      </Header>
+      <WebsiteJsonLd title={title} description={description} siteTitle={siteTitle} />
+      <Header title={headerTitle} />
 
       <Section>
         <Container>

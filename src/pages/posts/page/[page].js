@@ -4,13 +4,13 @@ import usePageMetadata from 'hooks/use-page-metadata';
 import TemplateArchive from 'templates/archive';
 
 export default function Posts({ posts, pagination }) {
-  const title = `All Posts`;
-  const slug = 'posts';
+  const title = `Blog`;
+  const slug = 'blog';
 
   const { metadata } = usePageMetadata({
     metadata: {
       title,
-      description: `Page ${pagination.currentPage}`,
+      description: `Aquí encontrarás <b>todos los post</b> que se han públicado en el blog. <br/> Actualmente te encuentras en la <b>página ${pagination.currentPage}</b> de <b>${pagination.pagesCount}</b>.`,
     },
   });
 
