@@ -165,10 +165,12 @@ const Nav = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(menuVisibility);
+
   return (
     <nav className={styles.nav}>
       <Section className={styles.nav__section}>
-        <div className={styles.nav__logo}>
+        <div className={`${styles.nav__logo} ${menuVisibility == MENU_VISIBLE && styles.nav__logo_marginBottom}`}>
           <Link href="/">
             <Logo title={title} />
           </Link>
@@ -180,10 +182,10 @@ const Nav = () => {
           <div ref={menuRef} className={styles.nav__menu}>
             <ul className={styles.nav__menuLinks}>
               <li>
-                <Button href="/">Home</Button>
+                <Button href="/">Inicio</Button>
               </li>
               <li>
-                <Button href="/posts/">Post</Button>
+                <Button href="/posts/">Blog</Button>
               </li>
               <li>
                 <Button>Sobre mi</Button>

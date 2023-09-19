@@ -24,9 +24,12 @@
     flex-direction: row;
     width: 100%;
 
-    @media (max-width: $breakpoint-medium) {
+    &_marginBottom {
       margin-bottom: 1.5rem;
     }
+    // @media (max-width: $breakpoint-medium) {
+    //   margin-bottom: 1.5rem;
+    // }
   }
 
   &__menuLinks {
