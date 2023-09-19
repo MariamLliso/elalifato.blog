@@ -3,16 +3,41 @@
 @import "styles/components/_container";
 
 .header {
-  margin: 5rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  background-image: url("/assets/images/mosaicos-alambra.webp");
+  background-size: cover;
 
-  h1 {
-    margin: 0;
-    line-height: 1.15;
-    font-size: 3rem;
-    text-align: center;
+  @media (min-width: 480px) {
+    padding: 6rem 4rem;
+  }
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: $border-radius-small;
+    background-color: $color-general-white;
 
     @media (min-width: 480px) {
-      font-size: 4rem;
+      padding: 2rem;
+    }
+  }
+
+  &__title {
+    margin: 0;
+    @extend .display;
+    font-size: 1.5rem;
+
+    color: $color-blue-500;
+
+    @media (min-width: 480px) {
+      font-size: 2.5rem;
+      text-align: center;
     }
 
     a {
@@ -25,20 +50,21 @@
         text-decoration: underline;
       }
     }
-
-    & + ul {
-      margin-top: 1.5em;
-    }
   }
 
-  p {
+  &__description {
+    margin-top: 0;
+
     &:last-child {
       margin-bottom: 0;
     }
   }
 
-  figure {
-    margin-left: -2rem;
-    margin-right: -2rem;
+  &__divider {
+    margin: 2rem;
+    width: 50%;
+    height: 0.25rem;
+    border-radius: 5rem;
+    background-color: $color-orange-300;
   }
 }
