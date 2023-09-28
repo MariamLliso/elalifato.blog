@@ -4,10 +4,12 @@ import Link from 'next/link';
 import useSite from 'hooks/use-site';
 import useSearch, { SEARCH_STATE_LOADED } from 'hooks/use-search';
 import { postPathBySlug } from 'lib/posts';
-
-import Section from 'components/Section';
+import { findMenuByLocation, MENU_LOCATION_NAVIGATION_DEFAULT } from 'lib/menus';
 
 import styles from './Nav.module.scss';
+
+import Section from 'components/Section';
+import NavListItem from 'components/NavListItem';
 import Logo from 'components/Logo/Logo';
 import Button from 'components/Button/Button';
 import Icon from 'components/Icon/Icon';
@@ -30,8 +32,10 @@ const Nav = () => {
   const [searchVisibility, setSearchVisibility] = useState(SEARCH_HIDDEN);
   const [menuVisibility, setMenuVisibility] = useState('');
 
-  const { metadata = {} } = useSite();
+  const { metadata = {}, menus } = useSite();
   const { title } = metadata;
+  const navigationLocation = process.env.WORDPRESS_MENU_LOCATION_NAVIGATION || MENU_LOCATION_NAVIGATION_DEFAULT;
+  const navigation = findMenuByLocation(menus, navigationLocation);
 
   const { query, results, search, clearSearch, state } = useSearch({
     maxResults: 5,
@@ -165,8 +169,6 @@ const Nav = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(menuVisibility);
-
   return (
     <nav className={styles.nav}>
       <Section className={styles.nav__section}>
@@ -191,9 +193,9 @@ const Nav = () => {
               <li>
                 <Button href="/posts/">Blog</Button>
               </li>
-              <li>
-                <Button>Sobre mi</Button>
-              </li>
+              {navigation?.map((listItem) => {
+                return <NavListItem key={listItem.id} item={listItem} />;
+              })}
             </ul>
           </div>
         )}

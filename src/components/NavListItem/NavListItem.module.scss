@@ -1,0 +1,33 @@
+@import "styles/settings/__settings";
+
+.ancor {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0.5em 1em;
+  border-radius: $border-radius-small;
+  border: 0;
+
+  font-family: inherit;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $color-blue-500;
+
+  background-color: transparent;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-blue-100;
+    text-decoration: none;
+
+    @media (min-width: $breakpoint-small) {
+      background-color: $color-blue-50;
+    }
+  }
+}
+
+.active {
+  background-color: $color-blue-100;
+}
