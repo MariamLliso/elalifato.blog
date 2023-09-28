@@ -27,6 +27,7 @@ ul {
 
 a {
   color: $color-primary;
+  line-height: 1.15rem;
 }
 
 img {
@@ -41,6 +42,12 @@ input {
     outline-offset: 0;
     padding: 0.5em 0.8em;
   }
+}
+
+figure img {
+  border-radius: 1rem;
+  background: transparent;
+  border: none;
 }
 
 figcaption {
