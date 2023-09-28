@@ -26,7 +26,7 @@ const Footer = () => {
               {hasRecentPosts && (
                 <li>
                   <Link className={styles.footerMenuTitle} href="/posts/">
-                    <strong>Recent Posts</strong>
+                    <strong>Posts recientes</strong>
                   </Link>
                   <ul className={styles.footerMenuItems}>
                     {recentPosts.map((post) => {
@@ -43,7 +43,7 @@ const Footer = () => {
               {hasRecentCategories && (
                 <li>
                   <Link href="/categories/" className={styles.footerMenuTitle}>
-                    <strong>Categories</strong>
+                    <strong>Categorías</strong>
                   </Link>
                   <ul className={styles.footerMenuItems}>
                     {categories.map((category) => {
@@ -59,7 +59,7 @@ const Footer = () => {
               )}
               <li>
                 <p className={styles.footerMenuTitle}>
-                  <strong>More</strong>
+                  <strong>Información del blog</strong>
                 </p>
                 <ul className={styles.footerMenuItems}>
                   <li>
