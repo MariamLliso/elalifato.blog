@@ -52,7 +52,7 @@ export default function Page({ page, breadcrumbs }) {
         slug={slug}
       />
 
-      <Header>
+      <Header title={title}>
         {hasBreadcrumbs && <Breadcrumbs breadcrumbs={breadcrumbs} />}
         {featuredImage && (
           <FeaturedImage
@@ -61,7 +61,6 @@ export default function Page({ page, breadcrumbs }) {
             dangerouslySetInnerHTML={featuredImage.caption}
           />
         )}
-        <h1 className={styles.title}>{title}</h1>
       </Header>
 
       <Content>
