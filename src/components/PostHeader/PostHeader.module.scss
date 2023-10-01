@@ -1,0 +1,52 @@
+@import "styles/settings/__settings";
+
+@import "styles/components/_container";
+
+.header {
+  display: flex;
+  justify-content: center;
+  background-size: cover;
+  padding-top: 2rem;
+
+  &__wrapper {
+    display: inline-block;
+  }
+
+  h1 {
+    margin: 0;
+    @extend .h1;
+    font-size: 2.5rem;
+    text-align: left;
+    color: $color-blue-500;
+
+    @media (min-width: 480px) {
+      text-align: center;
+      font-size: 3rem;
+    }
+
+    a {
+      color: $color-primary;
+      text-decoration: none;
+
+      &:hover,
+      &:focus,
+      &:active {
+        text-decoration: underline;
+      }
+    }
+
+    & + ul {
+      margin-top: 1.5em;
+    }
+  }
+
+  p {
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  figure > div {
+    border-radius: $border-radius-small;
+  }
+}

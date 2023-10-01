@@ -1,7 +1,7 @@
 @import "styles/settings/__settings";
 
 .content {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
 
   h2,
   h3,
@@ -17,8 +17,48 @@
     }
   }
 
+  h1 {
+    @extend .h1;
+    color: $color-blue-500;
+  }
+
+  h1 > a {
+    color: $color-blue-500;
+    border-bottom: 1px dashed $color-blue-500;
+  }
+
+  h2 {
+    @extend .h3;
+    color: $color-blue-500;
+  }
+
+  h3 {
+    @extend .h4;
+    color: $color-blue-500;
+  }
+
+  hr {
+    border: 0;
+    border-top: 2px dotted $color-orange-300;
+    margin: 2rem 0;
+    background: transparent;
+  }
+
   img {
     display: block;
     margin: 0 auto;
+  }
+
+  a {
+    color: $color-blue-400;
+    text-decoration: none;
+    border-bottom: 1px dashed $color-blue-400;
+    transition: all 500ms;
+  }
+
+  a:hover {
+    color: $color-blue-300;
+    text-decoration: none;
+    border-bottom: 1px dashed $color-blue-300;
   }
 }
