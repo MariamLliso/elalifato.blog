@@ -30,7 +30,7 @@
 
   &__title {
     margin: 0;
-    @extend .display;
+    @extend .h1;
     font-size: 1.5rem;
 
     color: $color-blue-500;

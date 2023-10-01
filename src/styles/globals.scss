@@ -1,5 +1,6 @@
 @import "styles/settings/__settings";
 @import "style.css";
+@import "styles/wordpress/styles.min.css";
 
 * {
   box-sizing: border-box;
@@ -10,10 +11,25 @@ body {
   padding: 0;
   margin: 0;
 
-  background-color: $color-blue-500;
-
   font-size: 1rem;
   font-family: $font-family-montserrat;
+}
+
+html {
+  background-color: $color-blue-500;
+}
+
+html::before {
+  content: " ";
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.02;
+  background-image: url("/assets/images/fondo.svg");
+  z-index: -1;
 }
 
 p {

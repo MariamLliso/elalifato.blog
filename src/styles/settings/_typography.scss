@@ -1,7 +1,37 @@
 $font-family-montserrat: "Montserrat", sans-serif;
 $font-family-gelasio: "Gelasio", serif;
 
-.display {
+.h1 {
   font-family: $font-family-gelasio;
   font-weight: bold;
+  font-size: 2.5rem;
+
+  @media (min-width: 480px) {
+    font-size: 3rem;
+  }
+}
+
+.h2 {
+  font-family: $font-family-gelasio;
+  font-style: italic;
+}
+
+.h3 {
+  font-family: $font-family-montserrat;
+  font-weight: bold;
+  font-size: 1.75rem;
+
+  @media (min-width: 480px) {
+    font-size: 2rem;
+  }
+}
+
+.h4 {
+  font-family: $font-family-montserrat;
+  font-weight: bold;
+  font-size: 1.5rem;
+
+  @media (min-width: 480px) {
+    font-size: 1.75rem;
+  }
 }

@@ -10,11 +10,11 @@ import useSite from 'hooks/use-site';
 import usePageMetadata from 'hooks/use-page-metadata';
 
 import Layout from 'components/Layout';
-import Header from 'components/Header';
 import Section from 'components/Section';
 import Container from 'components/Container';
 import Content from 'components/Content';
 import Metadata from 'components/Metadata';
+import PostHeader from 'components/PostHeader/PostHeader';
 import FeaturedImage from 'components/FeaturedImage';
 
 import styles from 'styles/pages/Post.module.scss';
@@ -72,29 +72,31 @@ export default function Post({ post, socialImage, related }) {
 
       <ArticleJsonLd post={post} siteTitle={siteMetadata.title} />
 
-      <Header>
-        {featuredImage && (
-          <FeaturedImage
-            {...featuredImage}
-            src={featuredImage.sourceUrl}
-            dangerouslySetInnerHTML={featuredImage.caption}
+      <PostHeader>
+        <Container>
+          {featuredImage && (
+            <FeaturedImage
+              {...featuredImage}
+              src={featuredImage.sourceUrl}
+              dangerouslySetInnerHTML={featuredImage.caption}
+            />
+          )}
+          <h1
+            className={styles.title}
+            dangerouslySetInnerHTML={{
+              __html: title,
+            }}
           />
-        )}
-        <h1
-          className={styles.title}
-          dangerouslySetInnerHTML={{
-            __html: title,
-          }}
-        />
-        <Metadata
-          className={styles.postMetadata}
-          date={date}
-          author={author}
-          categories={categories}
-          options={metadataOptions}
-          isSticky={isSticky}
-        />
-      </Header>
+          <Metadata
+            className={styles.postMetadata}
+            date={date}
+            author={author}
+            categories={categories}
+            options={metadataOptions}
+            isSticky={isSticky}
+          />
+        </Container>
+      </PostHeader>
 
       <Content>
         <Section>
@@ -111,7 +113,7 @@ export default function Post({ post, socialImage, related }) {
 
       <Section className={styles.postFooter}>
         <Container>
-          <p className={styles.postModified}>Last updated on {formatDate(modified)}.</p>
+          <p className={styles.postModified}>Última edición realizada el {formatDate(modified)}</p>
           {Array.isArray(relatedPostsList) && relatedPostsList.length > 0 && (
             <div className={styles.relatedPosts}>
               {relatedPostsTitle.name ? (
